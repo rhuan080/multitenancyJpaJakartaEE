@@ -1,0 +1,14 @@
+<persistence>
+    <persistence-unit name="javaee8">
+
+        <jta-data-source>jdbc/MyDataSource</jta-data-source>
+        <properties>
+            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create" />
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgresPlusDialect"/>
+            <property name="hibernate.multiTenancy" value="SCHEMA"/>
+            <property name="hibernate.tenant_identifier_resolver" value="net.rhuanrocha.dao.multitenancy.SchemaResolver"/>
+            <property name="hibernate.multi_tenant_connection_provider" value="net.rhuanrocha.dao.multitenancy.MultiTenantProvider"/>
+        </properties>
+
+    </persistence-unit>
+</persistence>
