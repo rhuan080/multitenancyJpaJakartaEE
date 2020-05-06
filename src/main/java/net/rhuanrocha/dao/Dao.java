@@ -1,15 +1,13 @@
 package net.rhuanrocha.dao;
 
-import net.rhuanrocha.dao.multitenancy.SchemaResolver;
+import net.rhuanrocha.dao.multitenancy.MuiltitenancyResolver;
 import net.rhuanrocha.entity.Entity;
-import org.hibernate.Hibernate;
 import org.hibernate.engine.spi.SessionFactoryImplementor;
 import org.hibernate.jpa.HibernateEntityManagerFactory;
 
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
 import java.util.Optional;
 
@@ -21,8 +19,8 @@ public abstract class Dao <T extends Entity>{
 
 
     protected EntityManager getEntityManager(String multitenancyIdentifier){
-        final SessionFactoryImplementor sessionFactory = ((HibernateEntityManagerFactory) emf).getSessionFactory();
-        final SchemaResolver schemaResolver = (SchemaResolver) sessionFactory.getCurrentTenantIdentifierResolver();
+
+        final MuiltitenancyResolver schemaResolver = (MuiltitenancyResolver) ((SessionFactoryImplementor) emf).getCurrentTenantIdentifierResolver();
         schemaResolver.setTenantIdentifier(multitenancyIdentifier);
 
         return emf.createEntityManager();

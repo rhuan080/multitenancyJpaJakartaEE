@@ -2,7 +2,7 @@ package net.rhuanrocha.dao.multitenancy;
 
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 
-public class SchemaResolver implements CurrentTenantIdentifierResolver {
+public class MuiltitenancyResolver implements CurrentTenantIdentifierResolver {
 
     private String tenantIdentifier = "public";
 

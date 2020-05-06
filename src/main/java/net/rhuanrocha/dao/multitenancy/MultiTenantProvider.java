@@ -7,6 +7,9 @@ import org.hibernate.service.spi.ServiceRegistryAwareService;
 import org.hibernate.service.spi.ServiceRegistryImplementor;
 import org.hibernate.service.spi.Stoppable;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -23,13 +26,14 @@ public class MultiTenantProvider implements MultiTenantConnectionProvider, Servi
     @Override
     public void injectServices(ServiceRegistryImplementor serviceRegistry) {
 
-         dataSource = (DataSource) ((ConfigurationService)serviceRegistry
-                    .getService(ConfigurationService.class))
-                    .getSettings().get("hibernate.connection.datasource");
-
          typeTenancy = (String) ((ConfigurationService)serviceRegistry
                  .getService(ConfigurationService.class))
                  .getSettings().get("hibernate.multiTenancy");
+
+         dataSource = (DataSource) ((ConfigurationService)serviceRegistry
+                     .getService(ConfigurationService.class))
+                     .getSettings().get("hibernate.connection.datasource");
+
 
     }
     @SuppressWarnings("rawtypes")
@@ -43,9 +47,13 @@ public class MultiTenantProvider implements MultiTenantConnectionProvider, Servi
     }
     @Override
     public Connection getAnyConnection() throws SQLException {
-        final Connection connection = dataSource.getConnection();
-        resetConnection(connection);// To make sure the connection start using schema default.
-        return connection;
+        if(dataSource != null) {
+            final Connection connection = dataSource.getConnection();
+            resetConnection(connection);// To make sure the connection start using schema/database default.
+            return connection;
+        }
+        return null;
+
     }
     @Override
     public Connection getConnection(String tenantIdentifier) throws SQLException {
@@ -59,22 +67,32 @@ public class MultiTenantProvider implements MultiTenantConnectionProvider, Servi
             }
 
         } catch (final SQLException e) {
-            throw new HibernateException("Error trying to alter schema [" + tenantIdentifier + "]", e);
+            if("DATABASE".equals(typeTenancy)){
+                throw new HibernateException("Error trying to alter database [" + tenantIdentifier + "]", e);
+            }
+            else {
+                throw new HibernateException("Error trying to alter schema [" + tenantIdentifier + "]", e);
+            }
         }
 
     }
 
     private Connection getConnectionMultitenancySchema(String tenantIdentifier) throws SQLException {
         final Connection connection = getAnyConnection();
-
         connection.createStatement().execute("SET SCHEMA '" + tenantIdentifier + "'");
         return connection;
     }
 
     private Connection getConnectionMultitenancyDataBase(String tenantIdentifier) throws SQLException {
-        final Connection connection = getAnyConnection();
-        connection.createStatement().execute("USE '" + tenantIdentifier + "'");
-        return connection;
+        final Context init;
+        try {
+            init = new InitialContext();
+            dataSource = (DataSource) init.lookup("java:/jdbc/"+tenantIdentifier);
+        } catch (NamingException e) {
+            throw new HibernateException("Error trying to get datasource ['java:/jdbc/"+tenantIdentifier+"']", e);
+        }
+
+        return dataSource.getConnection();
     }
 
     @Override
@@ -85,9 +103,19 @@ public class MultiTenantProvider implements MultiTenantConnectionProvider, Servi
 
     private void resetConnection(Connection connection){
         try {
-            connection.createStatement().execute("SET SCHEMA 'public'");
+            if("DATABASE".equals(typeTenancy)){
+                //connection.createStatement().execute("USE 'testdb'");
+            }
+            else {
+                connection.createStatement().execute("SET SCHEMA 'public'");
+            }
         } catch (final SQLException e) {
-            throw new HibernateException("Error trying to alter schema [public]", e);
+            if("DATABASE".equals(typeTenancy)){
+                throw new HibernateException("Error trying to alter database ['public']", e);
+            }
+            else {
+                throw new HibernateException("Error trying to alter schema ['public']", e);
+            }
         }
     }
 
