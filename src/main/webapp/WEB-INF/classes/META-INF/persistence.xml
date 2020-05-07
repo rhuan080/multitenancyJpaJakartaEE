@@ -6,8 +6,8 @@
             <property name="javax.persistence.schema-generation.database.action" value="none" />
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgresPlusDialect"/>
             <property name="hibernate.multiTenancy" value="DATABASE"/>
-            <property name="hibernate.tenant_identifier_resolver" value="net.rhuanrocha.dao.multitenancy.MuiltitenancyResolver"/>
-            <property name="hibernate.multi_tenant_connection_provider" value="net.rhuanrocha.dao.multitenancy.MultiTenantProvider"/>
+            <property name="hibernate.tenant_identifier_resolver" value="net.rhuanrocha.dao.multitenancy.DatabaseTenantResolver"/>
+            <property name="hibernate.multi_tenant_connection_provider" value="net.rhuanrocha.dao.multitenancy.DatabaseMultiTenantProvider"/>
         </properties>
 
     </persistence-unit>

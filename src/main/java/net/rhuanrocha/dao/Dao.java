@@ -20,8 +20,8 @@ public abstract class Dao <T extends Entity>{
 
     protected EntityManager getEntityManager(String multitenancyIdentifier){
 
-        final MuiltitenancyResolver schemaResolver = (MuiltitenancyResolver) ((SessionFactoryImplementor) emf).getCurrentTenantIdentifierResolver();
-        schemaResolver.setTenantIdentifier(multitenancyIdentifier);
+        final MuiltitenancyResolver tenantResolver = (MuiltitenancyResolver) ((SessionFactoryImplementor) emf).getCurrentTenantIdentifierResolver();
+        tenantResolver.setTenantIdentifier(multitenancyIdentifier);
 
         return emf.createEntityManager();
     }

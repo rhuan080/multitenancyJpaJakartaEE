@@ -7,13 +7,13 @@ CREATE TABLE public.job(
         companyname character varying(255) NOT NULL
     )
 
-CREATE SCHEMA rhuan
+CREATE SCHEMA usernameone
     CREATE TABLE job(
         id SERIAL NOT NULL,
         companyname character varying(255) NOT NULL
     );
 
-CREATE SCHEMA magnani
+CREATE SCHEMA usernametwo
     CREATE TABLE job(
         id SERIAL NOT NULL,
         companyname character varying(255) NOT NULL
@@ -21,11 +21,11 @@ CREATE SCHEMA magnani
 
 GRANT CONNECT ON DATABASE testdb TO admin;
 GRANT USAGE ON SCHEMA public TO admin;
-GRANT USAGE ON SCHEMA rhuan TO admin;
-GRANT USAGE ON SCHEMA magnani TO admin;
+GRANT USAGE ON SCHEMA usernameone TO admin;
+GRANT USAGE ON SCHEMA usernametwo TO admin;
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO admin;
-GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA rhuan TO admin;
-GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA magnani TO admin;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA usernameone TO admin;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA usernametwo TO admin;
 
 CREATE DATABASE testdb2;
 
@@ -36,26 +36,27 @@ USE testdb2;
 CREATE TABLE public.job(
         id SERIAL NOT NULL,
         companyname character varying(255) NOT NULL
-    );
+    )
 
-CREATE SCHEMA rhuan
+CREATE SCHEMA usernameone
     CREATE TABLE job(
         id SERIAL NOT NULL,
         companyname character varying(255) NOT NULL
     );
 
-CREATE SCHEMA magnani
+CREATE SCHEMA usernametwo
     CREATE TABLE job(
         id SERIAL NOT NULL,
-        companyname character varying(255) NOT NULL COLLATE,
+        companyname character varying(255) NOT NULL
     );
 
 GRANT CONNECT ON DATABASE testdb2 TO admin;
-GRANT USAGE ON SCHEMA rhuan TO admin;
-GRANT USAGE ON SCHEMA magnani TO admin;
+GRANT USAGE ON SCHEMA public TO admin;
+GRANT USAGE ON SCHEMA usernameone TO admin;
+GRANT USAGE ON SCHEMA usernametwo TO admin;
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO admin;
-GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA rhuan TO admin;
-GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA magnani TO admin;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA usernameone TO admin;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA usernametwo TO admin;
 
 CREATE DATABASE testdb3;
 
@@ -64,25 +65,26 @@ USE testdb3;
 CREATE TABLE public.job(
         id SERIAL NOT NULL,
         companyname character varying(255) NOT NULL
-    );
+    )
 
-CREATE SCHEMA rhuan
+CREATE SCHEMA usernameone
     CREATE TABLE job(
         id SERIAL NOT NULL,
         companyname character varying(255) NOT NULL
     );
 
-CREATE SCHEMA magnani
+CREATE SCHEMA usernametwo
     CREATE TABLE job(
         id SERIAL NOT NULL,
         companyname character varying(255) NOT NULL
     );
 
 GRANT CONNECT ON DATABASE testdb3 TO admin;
-GRANT USAGE ON SCHEMA rhuan TO admin;
-GRANT USAGE ON SCHEMA magnani TO admin;
+GRANT USAGE ON SCHEMA public TO admin;
+GRANT USAGE ON SCHEMA usernameone TO admin;
+GRANT USAGE ON SCHEMA usernametwo TO admin;
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO admin;
-GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA rhuan TO admin;
-GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA magnani TO admin;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA usernameone TO admin;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA usernametwo TO admin;
 
 
