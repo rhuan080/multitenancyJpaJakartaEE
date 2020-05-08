@@ -1,6 +1,6 @@
 
 # Multi-tenancy JPA and WildFLY
-It is an example multi-tenancy with JPA running on Wildfly/JBoss EAP and connection to a postgresql database. This example was tested in the Wildfly 18, but is suposed to work in the next versions, and some Hibenarte's features was used in this sample, then it is not vendor decouped as it is copled in Hibernate.
+It is an example multi-tenancy with JPA running on Wildfly/JBoss EAP and connecting to a postgresql database. This example was tested in the Wildfly 18, but is suposed to work in the next versions. Some Hibenarte's features was used in this sample, then it is not vendor decouped as it is copled to Hibernate.
 
 This example expose multi-tenancy by schema and database, and as the Wildfly works with datasources and already starts some connections to us, we'll apply the switch of connetion switching the datasource. Here I'll not explain the concepts and when use each of these multi-tenancy, but it will be directly example of implementation.
 
